@@ -75,12 +75,30 @@ X_final_test_scaled = scaler.transform(X_final_test_imputed)
 final_predictions = model.predict(X_final_test_scaled)
 print("Predictions for the final test set are complete!")
 
+# Create the dictionary to map genre numbers to names
+genre_mapping = {
+    0: 'Alternative',
+    1: 'Anime',
+    2: 'Blues',
+    3: 'Classical',
+    4: 'Country',
+    5: 'Electronic',
+    6: 'Hip-Hop',
+    7: 'Jazz',
+    8: 'Rap',
+    9: 'Rock',
+    10: 'Pop'
+}
+
+print("Genre mapping dictionary created.")
+
 # Create a new DataFrame with the song info and our predictions
 results_df = pd.DataFrame({
     'Artist Name': df_test['Artist Name'],
     'Track Name': df_test['Track Name'],
     'Predicted Genre': final_predictions
 })
+results_df['Predicted Genre Name'] = results_df['Predicted Genre'].map(genre_mapping)
 
 # Save the results to a CSV file
 results_df.to_csv('results/my_music_predictions.csv', index=False)
@@ -101,5 +119,4 @@ predicted_genre = results_df.iloc[0]['Predicted Genre']
 
 print("\n--- AI Music Critic Review ---")
 print(f"Track: '{first_song_track}' by {first_song_artist}")
-print(f"Verdict: After analyzing its audio features, my model classifies this track as genre code: {predicted_genre}.")
-print("----------------------------")
+print(f"Verdict: After analyzing its audio features, my model classifies this track as genre number {predicted_genre}.")
