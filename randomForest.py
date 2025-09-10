@@ -67,27 +67,14 @@ print(f"Model accuracy with Random Forest: {accuracy * 100:.2f}%")
 
 # Load the final test dataset
 df_test = pd.read_csv('data/test.csv')
-
-# --- Step 1: Prepare the test data EXACTLY like the training data ---
-
-# Select the same features we used for training
-# The list 'features_to_use' should be defined from your earlier steps
 X_final_test = df_test[features_to_use]
 
-# Use the SAME imputer to fill missing values
 X_final_test_imputed = imputer.transform(X_final_test)
-
-# Use the SAME scaler to scale the features
 X_final_test_scaled = scaler.transform(X_final_test_imputed)
 
-
-# --- Step 2: Make the final predictions ---
 final_predictions = model.predict(X_final_test_scaled)
-
 print("Predictions for the final test set are complete!")
 
-
-# --- Step 3: Create a results DataFrame (NEW, IMPROVED VERSION) ---
 # Create a new DataFrame with the song info and our predictions
 results_df = pd.DataFrame({
     'Artist Name': df_test['Artist Name'],
@@ -96,7 +83,7 @@ results_df = pd.DataFrame({
 })
 
 # Save the results to a CSV file
-results_df.to_csv('my_music_predictions.csv', index=False)
+results_df.to_csv('results/my_music_predictions.csv', index=False)
 
 print("\nResults file 'my_music_predictions.csv' has been created.")
 print(results_df.head())
